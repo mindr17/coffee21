@@ -4,6 +4,7 @@ import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 
 import Banner from '../components/Banner';
+import Card from '../components/card';
 
 const Home: NextPage = () => {
   const handleOnBannerBtnClick = () => {
@@ -23,7 +24,14 @@ const Home: NextPage = () => {
           buttonText="View stores nearby"
           handleOnClick={handleOnBannerBtnClick}
         />
-        <Image src="/static/hero-image.png" width={700} height={400} />
+        <div className={styles.heroImage}>
+          <Image src="/static/hero-image.png" width={700} height={400} />
+        </div>
+        <Card 
+          name="DarkHorse Coffee"
+          imgUrl="/hero-image.png"
+          href="/coffee-store/darkhorse-coffee"
+        />
       </main>
     </div>
   )
