@@ -6,10 +6,22 @@ import styles from '../styles/Home.module.css';
 import Banner from '../components/Banner';
 import Card from '../components/card';
 
-const Home: NextPage = () => {
+import coffeeStoresData from '../data/coffee-stores.json';
+
+export async function getStaticProps(context: any) {
+  console.log('getStaticProps');
+
+  return {
+    props: {
+      coffeeStores: coffeeStoresData,
+    },
+  };
+};
+
+const Home: NextPage = (props: any) => {
   const handleOnBannerBtnClick = () => {
     console.log('hi banner button!');
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -27,26 +39,28 @@ const Home: NextPage = () => {
         <div className={styles.heroImage}>
           <Image src="/static/hero-image.png" width={700} height={400} />
         </div>
-        <div className={styles.cardLayout}>
-          <Card 
-            name="DarkHorse Coffee"
-            imgUrl="/static/hero-image.png"
-            href="/coffee-store/darkhorse-coffee"
-            className={styles.card}
-          />
-          <Card 
-            name="DarkHorse Coffee"
-            imgUrl="/static/hero-image.png"
-            href="/coffee-store/darkhorse-coffee"
-            className={styles.card}
-          />
-          <Card 
-            name="DarkHorse Coffee"
-            imgUrl="/static/hero-image.png"
-            href="/coffee-store/darkhorse-coffee"
-            className={styles.card}
-          />
-        </div>
+        {
+          props.coffeeStores.length > 0 && 
+            <>
+              <h2 className={styles.heading2}>
+                Toronto stores
+              </h2>
+              <div className={styles.cardLayout}>
+                {
+                  props.coffeeStores.map((coffeeStore: { name: any; imgUrl: any; id: any; }) => {
+                    return (
+                      <Card 
+                        key={coffeeStore.id}
+                        name={coffeeStore.name}
+                        imgUrl={coffeeStore.imgUrl}
+                        href={`/coffee-store/${coffeeStore.id}`}
+                      />
+                    )
+                  })
+                }
+              </div>
+            </>
+        }
       </main>
     </div>
   )
